@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<h1>Alerts</h1>
+<table>
+    <thead>
+        <tr>
+            <th>Hostname</th>
+            <th>Customer</th>
+            <th>Alert</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for alert in alerts %}
+        <tr>
+            <td><a href="{{ alert.url }}">{{ alert.hostname }}</a></td>
+            <td>{{ alert.customer }}</td>
+            <td>{{ alert.alert }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock body %}
