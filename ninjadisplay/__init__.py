@@ -19,11 +19,10 @@ def alerts():
     alerts = []
     for device in all_alerts_info:
         device_id = utils.safe_get(device, 'device', 'id')
-        customer_name = utils.safe_get(device, 'customer', 'name')
         alerts.append(
             utils.Alert(
                 hostname=utils.safe_get(device, 'device', 'system_name'),
-                customer=customer_name,
+                customer=utils.safe_get(device, 'customer', 'name'),
                 url=f'https://app.ninjarmm.com/#/deviceDashboard/{device_id}/overview',
                 alert=utils.safe_get(device, 'message')
             )
