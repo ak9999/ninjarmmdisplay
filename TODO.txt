@@ -1,0 +1,1 @@
+Find a way to cache alerts and other device information, querying NinjaRMM is slow due:2020-01-31
