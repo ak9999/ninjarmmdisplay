@@ -1,5 +1,7 @@
 from collections import namedtuple
 
+from ninjadisplay import client
+
 # Helper functions
 
 def safe_get(dictionary, *keys):
@@ -13,14 +15,14 @@ def safe_get(dictionary, *keys):
 
 def get_servers(device_list=None):
     if device_list == None:
-        device_list = api.get_devices()  # Limited to ten calls every ten minutes
+        device_list = client.get_devices()  # Limited to ten calls every ten minutes
     servers = [d for d in device_list if d['role'] == 'WINDOWS_SERVER']
     return servers
 
 
 def get_virtual_devices(device_list=None):
     if device_list == None:
-        device_list = api.get_devices()  # Limited to ten calls every ten minutes
+        device_list = client.get_devices()  # Limited to ten calls every ten minutes
     virtual_devices = []
     for d in device_list:
         if safe_get(d, 'system', 'model') == "Virtual Machine":
