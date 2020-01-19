@@ -1,16 +1,17 @@
+import json
+
 from flask import render_template, Response
 
 from ninjadisplay import app
-from ninjadisplay import api
+from ninjadisplay import client
 from ninjadisplay import utils
 
 
-api = api.create_client()
 Alert = utils.Alert
 
 @app.route('/alerts')
 def alerts():
-    all_alerts_info = api.get_alerts()
+    all_alerts_info = client.get_alerts()
     alerts = []
     for device in all_alerts_info:
         device_id = utils.safe_get(device, 'device', 'id')
@@ -26,6 +27,14 @@ def alerts():
 
 @app.route('/devices')
 def devices():
-    from flask import Response
-    import json
-    return Response(response=json.dumps(api.get_devices()), status=200, mimetype='application/json')
+    return Response(response=json.dumps(client.get_devices()), status=200, mimetype='application/json')
+
+
+@app.route('/servers')
+def servers():
+    return Response(response=json.dumps(utils.get_servers()), status=200, mimetype='application/json')
+
+
+@app.route('/virtual')
+def virtual_devices():
+    return Response(response=json.dumps(utils.get_virtual_devices()), status=200, mimetype='application/json')
