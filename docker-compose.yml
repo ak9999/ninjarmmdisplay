@@ -1,4 +1,4 @@
-version: '3'
+version: '3.7'
 services:
     web:
         build:
@@ -6,6 +6,11 @@ services:
             context: .
         ports:
             - "8000:8000"
-        environment:
-            NRMM_KEY_ID: ${NRMM_KEY_ID}
-            NRMM_SECRET: ${NRMM_SECRET}
+        env_file:
+            - web_cred.env
+        # env_file is personally preferred rather than the below
+        # environment:
+        #     Assumes .env in relative path by default
+        #     Overrides the above env_file: https://docs.docker.com/compose/compose-file/#env_file
+        #     NRMM_KEY_ID: ${NRMM_KEY_ID}
+        #     NRMM_SECRET: ${NRMM_SECRET}
