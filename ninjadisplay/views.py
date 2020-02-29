@@ -1,6 +1,6 @@
 import json
 
-from flask import render_template, Response
+from flask import render_template, Response, request
 
 from ninjadisplay import app
 from ninjadisplay import client
@@ -23,7 +23,18 @@ def alerts():
                 alert=utils.safe_get(device, 'message')
             )
         )
-    return render_template('alerts.html', alerts=alerts)
+    if request.args['csv']:
+        from io import StringIO
+        import csv
+        csvfile = StringIO()
+        writer = csv.writer(csvfile)
+        writer.writerow(['customer', 'hostname', 'url', 'alert'])
+        for a in alerts:
+            writer.writerow([a.customer, a.hostname, a.url, a.alert])
+        return Response(response=csvfile.getvalue(), status=200, mimetype='text/csv')
+    else:
+        return render_template('alerts.html', alerts=alerts)
+
 
 @app.route('/devices')
 def devices():
